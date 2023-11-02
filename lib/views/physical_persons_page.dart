@@ -10,6 +10,6 @@ class PhysicalPersonsPage extends StatefulWidget {
 class _PhysicalPersonsPageState extends State<PhysicalPersonsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('page 1'));
+    return const Center(child: Text('PhysicalPersons'));
   }
 }

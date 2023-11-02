@@ -19,7 +19,7 @@ class _MainViewState extends State<MainView> {
   EdgeInsets padding = const EdgeInsets.all(15);
 
   int _selectedItemPosition = 0;
-  SnakeShape snakeShape = SnakeShape.circle;
+  SnakeShape snakeShape = SnakeShape.rectangle;
 
   Color selectedColor = const Color(0xFF1d4491);
   Color unselectedColor = const Color(0xFF1d4491);
@@ -69,10 +69,8 @@ class _MainViewState extends State<MainView> {
               duration: const Duration(milliseconds: 300));
         }),
         items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.warehouse), label: 'Estacionamentos'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.badge), label: 'Minhas reservas')
+          BottomNavigationBarItem(icon: Icon(Icons.person)),
+          BottomNavigationBarItem(icon: Icon(Icons.domain))
         ],
         selectedLabelStyle: const TextStyle(fontSize: 14),
         unselectedLabelStyle: const TextStyle(fontSize: 10),

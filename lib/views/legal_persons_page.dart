@@ -10,6 +10,6 @@ class LegalPersonsPage extends StatefulWidget {
 class _LegalPersonsPageState extends State<LegalPersonsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('page 2'));
+    return const Center(child: Text('LegalPersons'));
   }
 }
