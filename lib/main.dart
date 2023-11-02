@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
               primary: const Color(0xFF1d4491),
             ),
       ),
+      debugShowCheckedModeBanner: false,
       home: const MainView(),
     );
   }

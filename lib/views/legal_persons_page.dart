@@ -10,6 +10,18 @@ class LegalPersonsPage extends StatefulWidget {
 class _LegalPersonsPageState extends State<LegalPersonsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('LegalPersons'));
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 24, horizontal: 14),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('Pessoas Jurídicas'),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
