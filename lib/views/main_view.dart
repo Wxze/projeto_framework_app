@@ -36,7 +36,7 @@ class _MainViewState extends State<MainView> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         title: Text(
-          'Sym Pay',
+          'SymPay',
           style: GoogleFonts.ibmPlexMono(
               fontSize: 24, fontWeight: FontWeight.bold),
         ),
