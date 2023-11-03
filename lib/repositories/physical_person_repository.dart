@@ -27,6 +27,22 @@ class PhysicalPersonRepository {
     return persons;
   }
 
+  Future<Response> addPerson(String name, String cpf, String salary) async {
+    salary = salary.replaceAll(".", "");
+    salary = salary.replaceAll(",", ".");
+    double salaryDouble = double.parse(salary);
+
+    Map body = {"name": name, "cpf": cpf, "salary": salaryDouble};
+
+    var resp = await post(
+      Uri.parse(ApiRepository.PHYSICAL_PERSONS),
+      headers: <String, String>{'Content-Type': 'application/json;charset=UTF-8'},
+      body: json.encode(body),
+    );
+
+    return resp;
+  }
+
   Future<Response> deletePerson(int id) async {
     var resp = await delete(Uri.parse('${ApiRepository.PHYSICAL_PERSONS}/$id'));
 

@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class PhysicalPerson {
   final int id;
   final String name;
@@ -7,27 +5,23 @@ class PhysicalPerson {
   final String salary;
   final String expense;
 
-  PhysicalPerson(
-      {required this.id,
-      required this.name,
-      required this.cpf,
-      required this.salary,
-      required this.expense});
+  PhysicalPerson({required this.id, required this.name, required this.cpf, required this.salary, required this.expense});
 
   factory PhysicalPerson.fromJson(Map<String, dynamic> json) {
     double salaryToDouble = json['salary'];
     double expenseToDouble = json['expense'];
-    NumberFormat formatoComVirgula = NumberFormat.decimalPattern('pt_BR');
 
-    String salaryDouble = formatoComVirgula.format(salaryToDouble);
-    String expenseDouble = formatoComVirgula.format(expenseToDouble);
+    String salaryString = salaryToDouble.toStringAsFixed(2);
+    salaryString = salaryString.replaceAll(".", ",");
+    String expenseString = expenseToDouble.toStringAsFixed(2);
+    expenseString = expenseString.replaceAll(".", ",");
 
     return PhysicalPerson(
       id: json['id'],
       name: json['name'],
       cpf: json['cpf'],
-      salary: salaryDouble,
-      expense: expenseDouble,
+      salary: salaryString,
+      expense: expenseString,
     );
   }
 }
