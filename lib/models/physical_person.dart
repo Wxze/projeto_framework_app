@@ -15,18 +15,17 @@ class PhysicalPerson {
       required this.expense});
 
   factory PhysicalPerson.fromJson(Map<String, dynamic> json) {
-    double salaryToDouble = double.parse(json['salary']);
-    double expenseToDouble = double.parse(json['expense']);
+    double salaryToDouble = json['salary'];
+    double expenseToDouble = json['expense'];
     NumberFormat formatoComVirgula = NumberFormat.decimalPattern('pt_BR');
 
     String salaryDouble = formatoComVirgula.format(salaryToDouble);
-
     String expenseDouble = formatoComVirgula.format(expenseToDouble);
 
     return PhysicalPerson(
       id: json['id'],
-      name: json['id'],
-      cpf: json['id'],
+      name: json['name'],
+      cpf: json['cpf'],
       salary: salaryDouble,
       expense: expenseDouble,
     );

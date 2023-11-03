@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:projeto_framework_app/repositories/physical_person_repository.dart';
 
 import '../../models/physical_person.dart';
 
 class PhysicalPersonListTile extends StatefulWidget {
-  const PhysicalPersonListTile({super.key, required this.person});
+  const PhysicalPersonListTile(
+      {super.key, required this.person, required this.resetPersonsListState});
   final PhysicalPerson person;
+  final Function resetPersonsListState;
 
   @override
   State<PhysicalPersonListTile> createState() => _PhysicalPersonListTileState();
@@ -166,9 +170,22 @@ class _PhysicalPersonListTileState extends State<PhysicalPersonListTile> {
                                                   const SizedBox(width: 10),
                                                   Expanded(
                                                     child: ElevatedButton(
-                                                      onPressed: () {
-                                                        print(
-                                                            'Excluir cadastro da pessoa');
+                                                      onPressed: () async {
+                                                        Response resp =
+                                                            await PhysicalPersonRepository()
+                                                                .deletePerson(
+                                                                    widget
+                                                                        .person
+                                                                        .id);
+
+                                                        if (resp.statusCode ==
+                                                            200) {
+                                                          _redirectUser();
+                                                          showSnackBar(
+                                                              'Pessoa excluída com sucesso!');
+                                                          widget
+                                                              .resetPersonsListState();
+                                                        }
                                                       },
                                                       child: const Text(
                                                         'Excluir',
@@ -202,5 +219,24 @@ class _PhysicalPersonListTileState extends State<PhysicalPersonListTile> {
         ),
       ),
     );
+  }
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(seconds: 3),
+      content: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        const Icon(
+          Icons.check_circle,
+          color: Colors.white,
+        ),
+        const SizedBox(width: 10),
+        Flexible(child: Text(message))
+      ]),
+      backgroundColor: const Color(0xFF44A33C),
+    ));
+  }
+
+  void _redirectUser() {
+    Navigator.of(context).pop();
   }
 }

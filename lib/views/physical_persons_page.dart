@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_framework_app/models/physical_person.dart';
+import 'package:projeto_framework_app/repositories/physical_person_repository.dart';
 import 'package:projeto_framework_app/views/widgets/physical_person_list_tile.dart';
+
+import '../widgets/default_card_message.dart';
 
 class PhysicalPersonsPage extends StatefulWidget {
   const PhysicalPersonsPage({super.key});
@@ -10,6 +13,8 @@ class PhysicalPersonsPage extends StatefulWidget {
 }
 
 class _PhysicalPersonsPageState extends State<PhysicalPersonsPage> {
+  late List<PhysicalPerson> persons;
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -31,8 +36,10 @@ class _PhysicalPersonsPageState extends State<PhysicalPersonsPage> {
                         color: Color(0xFF0f2249)),
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        print('pressionado');
+                      onPressed: () async {
+                        List<PhysicalPerson> persons =
+                            await PhysicalPersonRepository().getAll();
+                        print(persons);
                       },
                       child: const Icon(
                         Icons.add,
@@ -40,34 +47,56 @@ class _PhysicalPersonsPageState extends State<PhysicalPersonsPage> {
                 ],
               ),
               const SizedBox(height: 24),
-              ListView.separated(
-                itemCount: 10,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return PhysicalPersonListTile(
-                      person: PhysicalPerson(
-                    id: 1,
-                    name: 'Ranniery Lucas',
-                    cpf: '12315647876',
-                    salary: '1230,78',
-                    expense: '2650,87',
-                  ));
+              FutureBuilder<List<PhysicalPerson>>(
+                future: PhysicalPersonRepository().getAll(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  } else if (!snapshot.hasData) {
+                    return const DefaultCardMessage(
+                        message: 'Não há pessoas físicas cadastradas.');
+                  } else {
+                    persons = snapshot.data!;
+                    if (persons.isNotEmpty) {
+                      return ListView.separated(
+                        itemCount: persons.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return PhysicalPersonListTile(
+                            person: persons[index],
+                            resetPersonsListState: () {
+                              setState(() {
+                                persons = persons;
+                              });
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(
+                            height: 16,
+                          );
+                        },
+                      );
+                    } else {
+                      return const DefaultCardMessage(
+                          message: 'Não há pessoas físicas cadastradas.');
+                    }
+                  }
                 },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    height: 10,
-                  );
-                },
-              ),
+              )
             ],
           ),
         ),
       ),
     );
   }
-}
 
-Future<void> _pullRefresh() async {
-  print('Refreshed');
+  Future<void> _pullRefresh() async {
+    setState(() {
+      persons = persons;
+    });
+  }
 }
