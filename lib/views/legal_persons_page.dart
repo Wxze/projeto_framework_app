@@ -133,7 +133,7 @@ class _LegalPersonsPageState extends State<LegalPersonsPage> {
                                             SizedBox(
                                               child: MaskedTextField(
                                                 controller: _cnpjController,
-                                                text: '998.303.090-02',
+                                                text: '36.230.387/0001-10',
                                                 icon: Icons.pin,
                                                 keyboardType: TextInputType.number,
                                                 maskFormatter: MaskTextInputFormatter(
